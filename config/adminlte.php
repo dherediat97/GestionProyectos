@@ -64,7 +64,7 @@ return [
     */
 
 
-    'logo' => '<img height="40" width="80" src="logo.png"/>',
+    'logo' => null,
     'logo_img' => '',
     'logo_img_class' => 'brand-image-xl',
     'logo_img_xl' => 'logo.png',
@@ -86,13 +86,13 @@ return [
     */
 
     'auth_logo' => [
-        'enabled' => false,
+        'enabled' => true,
         'img' => [
-            'path' => 'logo.png',
+            'path' => 'logo_blue.jpg',
             'alt' => 'Auth Logo',
             'class' => '',
-            'width' => 50,
-            'height' => 50,
+            'width' => 200,
+            'height' => 200,
         ],
     ],
 
@@ -177,8 +177,7 @@ return [
     'classes_auth_body' => '',
     'classes_auth_footer' => 'text-center',
     'classes_auth_icon' => 'fa-lg text-info',
-    'classes_auth_btn' => 'btn-flat btn-navy',
-
+    'classes_auth_btn' => 'btn-flat btn-primary',
     /*
     |--------------------------------------------------------------------------
     | Admin Panel Classes
@@ -257,8 +256,8 @@ return [
     |
     */
 
-    'use_route_url' => true,
-    'dashboard_url' => 'home',
+    'use_route_url' => false,
+    'dashboard_url' => '/',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',

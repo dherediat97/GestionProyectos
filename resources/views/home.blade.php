@@ -6,4 +6,5 @@
 @stop
 
 @section('content')
+    @include('layouts.footer')
 @stop

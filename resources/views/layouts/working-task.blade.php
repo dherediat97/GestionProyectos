@@ -25,73 +25,72 @@
             <x-adminlte-button theme="danger" icon="fas fa-lg fa-xmark" label="Cerrar" data-dismiss="modal" />
         </x-slot>
     </x-adminlte-modal>
+
     @push('js')
         <script>
             var calendar;
 
-            document.addEventListener('DOMContentLoaded', async function() {
-                var calendarEl = document.getElementById('calendar');
-                calendar = new FullCalendar.Calendar(calendarEl, {
-                    locale: 'es',
-                    themeSystem: 'bootstrap5',
-                    titleFormat: {
-                        weekday: 'long',
-                        day: 'numeric',
-                        year: 'numeric',
-                        month: 'long'
+            var calendarEl = document.getElementById('calendar');
+            calendar = new FullCalendar.Calendar(calendarEl, {
+                locale: 'es',
+                themeSystem: 'bootstrap5',
+                titleFormat: {
+                    weekday: 'long',
+                    day: 'numeric',
+                    year: 'numeric',
+                    month: 'long'
+                },
+                slotLabelFormat: {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    meridiem: false,
+                    omitZeroMinute: false
+                },
+                businessHours: true,
+                themeSystem: 'bootstrap5',
+                businessHours: {
+                    startTime: '8:00',
+                    endTime: '18:30',
+                    daysOfWeek: [1, 2, 3, 4, 5] // Lunes - Viernes
+                },
+                nowIndicator: true,
+                allDaySlot: false,
+                firstDay: 1,
+                customButtons: {
+                    administrationButton: {
+                        text: 'Gestión',
+                        click: function() {}
                     },
-                    slotLabelFormat: {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        meridiem: false,
-                        omitZeroMinute: false
-                    },
-                    businessHours: true,
-                    themeSystem: 'bootstrap5',
-                    businessHours: {
-                        startTime: '8:00',
-                        endTime: '18:30',
-                        daysOfWeek: [1, 2, 3, 4, 5] // Lunes - Viernes
-                    },
-                    nowIndicator: true,
-                    allDaySlot: false,
-                    firstDay: 1,
-                    customButtons: {
-                        administrationButton: {
-                            text: 'Gestión',
-                            click: function() {}
-                        },
-                    },
-                    showNonCurrentDates: false,
-                    weekends: false,
-                    droppable: true,
-                    slotMinTime: '8:00',
-                    slotMaxTime: '18:30',
-                    initialView: 'timeGridDay',
-                    contentHeight: "auto",
-                    buttonText: {
-                        today: 'Hoy',
-                        month: 'Mes',
-                        week: 'Semana',
-                        day: 'Día',
-                        timeGridWeek: 'Semana',
-                        timeGridDay: 'Día'
-                    },
-                    headerToolbar: {
-                        left: 'prev,today,next',
-                        center: 'title',
-                        right: 'timeGridWeek,timeGridDay,administrationButton'
-                    },
-                    eventClick: function(info) {
-                        $('#eventDetailsModal').modal('show');
-                        $('#startTimeEvent').val(info.event.start.toLocaleString('es'));
-                        $('#endTimeEvent').val(info.event.end.toLocaleString('es'));
-                        $('#eventDescription').val(info.event.title);
-                    },
-                });
-                calendar.render();
-                await fetchEvents();
+                },
+                showNonCurrentDates: false,
+                weekends: false,
+                droppable: true,
+                slotMinTime: '8:00',
+                slotMaxTime: '18:30',
+                initialView: 'timeGridDay',
+                contentHeight: "auto",
+                buttonText: {
+                    today: 'Hoy',
+                    month: 'Mes',
+                    week: 'Semana',
+                    day: 'Día',
+                    timeGridWeek: 'Semana',
+                    timeGridDay: 'Día'
+                },
+                headerToolbar: {
+                    left: 'prev,today,next',
+                    center: 'title',
+                    right: 'timeGridWeek,timeGridDay,administrationButton'
+                },
+                eventClick: function(info) {
+                    $('#eventDetailsModal').modal('show');
+                    $('#startTimeEvent').val(info.event.start.toLocaleString('es'));
+                    $('#endTimeEvent').val(info.event.end.toLocaleString('es'));
+                    $('#eventDescription').val(info.event.title);
+                },
             });
+            calendar.render();
+            fetchEvents();
 
 
             function fetchEvents() {

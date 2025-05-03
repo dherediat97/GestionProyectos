@@ -34,8 +34,8 @@
     <div class="mx-auto p-2 text-start">
         <div class="row align-items-start">
             <div class="col">
-                <x-adminlte-card title="Control de proyectos">
-                    <x-slot name="toolsSlot">
+                <x-adminlte-card title="Control de proyectos" theme="white">
+                    <x-slot name="toolsSlot" theme="white">
                         @if (auth()->user()->hasRole('admin'))
                             <x-adminlte-button theme="primary" icon="fas fa-lg fa-plus"
                                 onclick="newProject()"></x-adminlte-button>
@@ -59,9 +59,6 @@
     @yield('content_body')
     @include('layouts.footer')
 @stop
-
-
-
 
 <script>
     var userSelected = null;
