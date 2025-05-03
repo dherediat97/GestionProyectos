@@ -64,12 +64,12 @@ return [
     */
 
 
-    'logo' => 'SiMJ',
-    // 'logo_img' => 'logo.png',
-    'logo_img_class' => 'brand-image',
-    'logo_img_xl' => null,
-    'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Admin Logo',
+    'logo' => '<img height="40" width="80" src="logo.png"/>',
+    'logo_img' => '',
+    'logo_img_class' => 'brand-image-xl',
+    'logo_img_xl' => 'logo.png',
+    'logo_img_xl_class' => 'brand-image-xl',
+    'logo_img_alt' => '',
 
 
     /*
@@ -117,7 +117,7 @@ return [
         'img' => [
             'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
             'alt' => 'AdminLTE Preloader Image',
-            'effect' => 'animation__shake',
+            'effect' => 'animation__wobble',
             'width' => 60,
             'height' => 60,
         ],
@@ -136,9 +136,9 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => false,
-    'usermenu_header_class' => 'bg-primary',
-    'usermenu_image' => false,
+    'usermenu_header' => true,
+    'usermenu_header_class' => 'bg-navy',
+    'usermenu_image' => true,
     'usermenu_desc' => false,
     'usermenu_profile_url' => false,
 
@@ -177,7 +177,7 @@ return [
     'classes_auth_body' => '',
     'classes_auth_footer' => 'text-center',
     'classes_auth_icon' => 'fa-lg text-info',
-    'classes_auth_btn' => 'btn-flat btn-primary',
+    'classes_auth_btn' => 'btn-flat btn-navy',
 
     /*
     |--------------------------------------------------------------------------
@@ -198,7 +198,7 @@ return [
     'classes_content_header' => '',
     'classes_content' => '',
     'classes_sidebar' => 'sidebar-dark-primary elevation-4',
-    'classes_sidebar_nav' => '',
+    'classes_sidebar_nav' => 'nav-flat',
     'classes_topnav' => 'navbar-white navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
     'classes_topnav_container' => 'container',
@@ -300,8 +300,7 @@ return [
     */
 
     'menu' => [
-        // Navbar items:
-        
+        'SOLUCIONES INFORMÁTICAS MJ',
         // Sidebar items:
         [
             'type' => 'sidebar-menu-search',
@@ -311,16 +310,19 @@ return [
             'text' => 'home',
             'url' => '/',
             'icon' => 'fas fa-fw fa-home',
+            'icon_color' => 'light',
         ],
         [
             'text' => 'admin_projects',
             'url' => '/projects',
-            'icon' => 'fas fa-fw fa-home',
+            'icon' => 'fas fa-fw fa-user-tie',
+            'icon_color' => 'light',
         ],
         [
             'text' => 'admin_users',
             'url' => '/users',
             'icon' => 'fas fa-fw fa-user-plus',
+            'icon_color' => 'light',
         ]   
     ],
 
@@ -360,7 +362,7 @@ return [
 
     'plugins' => [
         'Datatables' => [
-            'active' => true,
+            'active' => false,
             'files' => [
                 [
                     'type' => 'js',
@@ -380,7 +382,7 @@ return [
             ],
         ],
         'Select2' => [
-            'active' => true,
+            'active' => false,
             'files' => [
                 [
                     'type' => 'js',
@@ -395,7 +397,7 @@ return [
             ],
         ],
         'Chartjs' => [
-            'active' => true,
+            'active' => false,
             'files' => [
                 [
                     'type' => 'js',
@@ -405,7 +407,7 @@ return [
             ],
         ],
         'Sweetalert2' => [
-            'active' => true,
+            'active' => false,
             'files' => [
                 [
                     'type' => 'js',
@@ -415,7 +417,7 @@ return [
             ],
         ],
         'Pace' => [
-            'active' => true,
+            'active' => false,
             'files' => [
                 [
                     'type' => 'css',

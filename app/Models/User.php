@@ -46,4 +46,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function adminlte_image()
+    {
+        return "";
+        // return "https://avatar.iran.liara.run/username?username=$this->name";
+    }
+
+   
 }

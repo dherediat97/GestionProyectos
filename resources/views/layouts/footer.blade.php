@@ -5,10 +5,10 @@
                 Fin de la sesión: 23:59:59
             </div>
             <div class="col">
-                Version: {{ config('app.version', '1.0.0') }}
+                Version: <span>{{ config('app.version', '1.0.0') }}</span>
             </div>
             <div class="col">
-                {{ config('app.company_name', '2023 Soluciones Informáticas MJ SCA') }}
+                {{ config('app.company_name', '© 2023 Soluciones Informáticas MJ SCA') }}
             </div>
         </div>
     </div>
