@@ -64,12 +64,12 @@ return [
     */
 
 
-    'logo' => 'SiMJ',
-    // 'logo_img' => 'logo.png',
-    'logo_img_class' => 'brand-image',
-    'logo_img_xl' => null,
-    'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Admin Logo',
+    'logo' => null,
+    'logo_img' => '',
+    'logo_img_class' => 'brand-image-xl',
+    'logo_img_xl' => 'logo.png',
+    'logo_img_xl_class' => 'brand-image-xl',
+    'logo_img_alt' => '',
 
 
     /*
@@ -86,13 +86,13 @@ return [
     */
 
     'auth_logo' => [
-        'enabled' => false,
+        'enabled' => true,
         'img' => [
-            'path' => 'logo.png',
+            'path' => 'logo_blue.jpg',
             'alt' => 'Auth Logo',
             'class' => '',
-            'width' => 50,
-            'height' => 50,
+            'width' => 200,
+            'height' => 200,
         ],
     ],
 
@@ -115,11 +115,11 @@ return [
         'enabled' => true,
         'mode' => 'fullscreen',
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-            'alt' => 'AdminLTE Preloader Image',
-            'effect' => 'animation__shake',
-            'width' => 60,
-            'height' => 60,
+            'path' => 'logo_blue.jpg',
+            'alt' => 'Logo Preloader Image',
+            'effect' => 'animation__wobble',
+            'width' => 200,
+            'height' => 200,
         ],
     ],
 
@@ -136,9 +136,9 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => false,
-    'usermenu_header_class' => 'bg-primary',
-    'usermenu_image' => false,
+    'usermenu_header' => true,
+    'usermenu_header_class' => 'bg-navy',
+    'usermenu_image' => true,
     'usermenu_desc' => false,
     'usermenu_profile_url' => false,
 
@@ -178,7 +178,6 @@ return [
     'classes_auth_footer' => 'text-center',
     'classes_auth_icon' => 'fa-lg text-info',
     'classes_auth_btn' => 'btn-flat btn-primary',
-
     /*
     |--------------------------------------------------------------------------
     | Admin Panel Classes
@@ -198,7 +197,7 @@ return [
     'classes_content_header' => '',
     'classes_content' => '',
     'classes_sidebar' => 'sidebar-dark-primary elevation-4',
-    'classes_sidebar_nav' => '',
+    'classes_sidebar_nav' => 'nav-flat',
     'classes_topnav' => 'navbar-white navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
     'classes_topnav_container' => 'container',
@@ -258,7 +257,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => '/',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -300,9 +299,8 @@ return [
     */
 
     'menu' => [
-        // Navbar items:
-        
-        // Sidebar items:
+        env('APP_COMPANY_NAME'),
+        //Menu items:
         [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
@@ -311,17 +309,20 @@ return [
             'text' => 'home',
             'url' => '/',
             'icon' => 'fas fa-fw fa-home',
+            'icon_color' => 'light',
         ],
         [
             'text' => 'admin_projects',
             'url' => '/projects',
-            'icon' => 'fas fa-fw fa-home',
+            'icon' => 'fas fa-fw fa-user-tie',
+            'icon_color' => 'light',
         ],
         [
             'text' => 'admin_users',
             'url' => '/users',
             'icon' => 'fas fa-fw fa-user-plus',
-        ]   
+            'icon_color' => 'light',
+        ]
     ],
 
     /*
@@ -360,7 +361,7 @@ return [
 
     'plugins' => [
         'Datatables' => [
-            'active' => true,
+            'active' => false,
             'files' => [
                 [
                     'type' => 'js',
@@ -380,7 +381,7 @@ return [
             ],
         ],
         'Select2' => [
-            'active' => true,
+            'active' => false,
             'files' => [
                 [
                     'type' => 'js',
@@ -395,7 +396,7 @@ return [
             ],
         ],
         'Chartjs' => [
-            'active' => true,
+            'active' => false,
             'files' => [
                 [
                     'type' => 'js',
@@ -405,7 +406,7 @@ return [
             ],
         ],
         'Sweetalert2' => [
-            'active' => true,
+            'active' => false,
             'files' => [
                 [
                     'type' => 'js',
@@ -415,7 +416,7 @@ return [
             ],
         ],
         'Pace' => [
-            'active' => true,
+            'active' => false,
             'files' => [
                 [
                     'type' => 'css',
