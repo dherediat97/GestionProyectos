@@ -115,11 +115,11 @@ return [
         'enabled' => true,
         'mode' => 'fullscreen',
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-            'alt' => 'AdminLTE Preloader Image',
+            'path' => 'logo_blue.jpg',
+            'alt' => 'Logo Preloader Image',
             'effect' => 'animation__wobble',
-            'width' => 60,
-            'height' => 60,
+            'width' => 200,
+            'height' => 200,
         ],
     ],
 
@@ -257,7 +257,7 @@ return [
     |
     */
 
-    'use_route_url' => false,
+    'use_route_url' => true,
     'dashboard_url' => 'home',
     'logout_url' => 'logout',
     'login_url' => 'login',
@@ -300,8 +300,8 @@ return [
     */
 
     'menu' => [
-        'SOLUCIONES INFORMÁTICAS MJ',
-        // Sidebar items:
+        env('APP_COMPANY_NAME'),
+        //Menu items:
         [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
@@ -323,7 +323,7 @@ return [
             'url' => '/users',
             'icon' => 'fas fa-fw fa-user-plus',
             'icon_color' => 'light',
-        ]   
+        ]
     ],
 
     /*

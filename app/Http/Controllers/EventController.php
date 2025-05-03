@@ -7,20 +7,15 @@ use App\Models\Event;
 
 class EventController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $events = new Event();
 
-        $from = $request->from;
-        $to = $request->to;
-
-        return response()->json([
-            "data" => $events->
-                where("start_date", "<", $to)->
-                where("end_date", ">=", $from)->get()
-        ]);
+        return response()->json($events->get());
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         $event = new Event();
 
@@ -30,12 +25,13 @@ class EventController extends Controller
         $event->save();
 
         return response()->json([
-            "action"=> "inserted",
-            "tid" => $event->id
+            "action" => "created successfully",
+            "event" => $event
         ]);
     }
 
-    public function update($id, Request $request){
+    public function update($id, Request $request)
+    {
         $event = Event::find($id);
 
         $event->text = strip_tags($request->text);
@@ -44,16 +40,18 @@ class EventController extends Controller
         $event->save();
 
         return response()->json([
-            "action"=> "updated"
+            "action" => "updated successfully",
+            "event" => $event
         ]);
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $event = Event::find($id);
         $event->delete();
 
         return response()->json([
-            "action"=> "deleted"
+            "action" => "deleted successfully"
         ]);
     }
 }

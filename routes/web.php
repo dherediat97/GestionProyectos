@@ -1,29 +1,33 @@
 <?php
 
+use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 //Home route page
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //Projects route page
-Route::get('/projects', [App\Http\Controllers\HomeController::class, 'index'])->name('projects');
+Route::get('/projects', [App\Http\Controllers\ProjectController::class, 'index'])->name('projects');
 //Users route page
 Route::get('/users', [App\Http\Controllers\HomeController::class, 'index'])->name('users');
 
 //Projects page
 Route::get('/projects', function () {
-    if (!Auth::check()) {
-        return redirect('login');
-    }
-    return view('layouts.projects');
+    // Check if the user is authenticated
+    if (!Auth::check()) return redirect('login');
+
+    return view('projects');
 });
 
 //Users page
 Route::get('/users', function () {
-    if (!Auth::check()) {
-        return redirect('login');
-    }
-    return view('layouts.users');
+    // Check if the user is authenticated 
+    if (!Auth::check()) return redirect('login');
+
+    return view('users');
 });
+
+
+Route::post('/projects', [App\Http\Controllers\ProjectController::class, 'projects'])->name('projects');
 
 Auth::routes();

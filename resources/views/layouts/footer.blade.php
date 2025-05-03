@@ -1,15 +1,10 @@
 @section('footer')
-    <div class="container text-start">
-        <div class="row align-items-start">
-            <div class="col">
-                Fin de la sesión: 23:59:59
-            </div>
-            <div class="col">
-                Version: <span>{{ config('app.version', '1.0.0') }}</span>
-            </div>
-            <div class="col">
-                {{ config('app.company_name', '© 2023 Soluciones Informáticas MJ SCA') }}
-            </div>
+    <div class="container text-end">
+        <div class="row align-items-end">
+            <div class="col">Fin de la sesión: 23:59:59 </div>
+            <div class="col">© {{ date('Y') }} <a
+                    href="https://solucionesinformaticasmj.com/">{{ env('APP_COMPANY_NAME') }} S.C.A.</a></div>
+            <div class="col">Version: <span>{{ env('APP_VERSION') }}-{{ date('ddmmYhh') }}</span></div>
         </div>
     </div>
 @stop

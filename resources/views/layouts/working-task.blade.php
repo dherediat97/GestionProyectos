@@ -1,52 +1,115 @@
-<!DOCTYPE html>
-
-<head>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-
-    <script src="https://cdn.dhtmlx.com/scheduler/edge/dhtmlxscheduler.js"></script>
-    <link href="https://cdn.dhtmlx.com/scheduler/edge/dhtmlxscheduler.css" rel="stylesheet">
-
-    <style type="text/css">
-        html,
-        body {
-            height: 100%;
-            padding: 0px;
-            margin: 0px;
-            overflow: hidden;
-        }
-
-        .dhx_cal_event {
-            --dhx-scheduler-event-border: 1px solid #732d16;
-            --dhx-scheduler-event-background: #041e49;
-        }
-    </style>
-</head>
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <body>
-    <div id="scheduler" class="dhx_cal_container" style='width:100%; height:100%;'>
-        <div class="dhx_cal_navline">
-            <div class="dhx_cal_prev_button">&nbsp;</div>
-            <div class="dhx_cal_next_button">&nbsp;</div>
-            <div class="dhx_cal_today_button"></div>
-            <div class="dhx_cal_date"></div>
-            <div class="dhx_cal_tab" data-tab="day"></div>
-            <div class="dhx_cal_tab" data-tab="week"></div>
-            <div class="dhx_cal_tab" data-tab="month"></div>
-        </div>
-        <div class="dhx_cal_header"></div>
-        <div class="dhx_cal_data"></div>
-    </div>
-    <script type="text/javascript">
-        scheduler.config.xml_date = "%Y-%m-%d %H:%i:%s";
-        scheduler.i18n.setLocale("es");
-        scheduler.config.show_errors = false;
-        scheduler.config.show_loading = true;
-        scheduler.setLoadMode("day");
-        scheduler.init("scheduler", new Date(2025, 05, 03), "day");
+    <div id='calendar'></div>
+    <x-adminlte-modal id="eventDetailsModal" title="Evento" scrollable="true" theme="navy" size='xs'>
+        <x-adminlte-input name="startTimeEvent" label="Inicio tarea" igroup-size="xs">
+            <x-slot name="appendSlot">
+                <div class="input-group-text">
+                    <i class="fas fa-calendar"></i>
+                </div>
+            </x-slot>
+        </x-adminlte-input>
+        <x-adminlte-textarea name="eventDescription" label="Texto informativo" rows=4>
+        </x-adminlte-textarea>
+        <x-adminlte-input name="endTimeEvent" label="Fin tarea" igroup-size="xs">
+            <x-slot name="appendSlot">
+                <div class="input-group-text">
+                    <i class="fas fa-calendar"></i>
+                </div>
+            </x-slot>
+        </x-adminlte-input>
+        <x-slot name="footerSlot">
+            <x-adminlte-button icon="fas fa-lg fa-save" theme="success" label="Guardar" />
+            <x-adminlte-button theme="danger" icon="fas fa-lg fa-xmark" label="Cerrar" data-dismiss="modal" />
+        </x-slot>
+    </x-adminlte-modal>
+    @push('js')
+        <script>
+            var calendar;
 
-        scheduler.load("/api/events", "json");
-        let dp = scheduler.createDataProcessor("/api/events");
-        dp.init(scheduler);
-        dp.setTransactionMode("REST");
-    </script>
+            document.addEventListener('DOMContentLoaded', async function() {
+                var calendarEl = document.getElementById('calendar');
+                calendar = new FullCalendar.Calendar(calendarEl, {
+                    locale: 'es',
+                    themeSystem: 'bootstrap5',
+                    titleFormat: {
+                        weekday: 'long',
+                        day: 'numeric',
+                        year: 'numeric',
+                        month: 'long'
+                    },
+                    slotLabelFormat: {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        meridiem: false,
+                        omitZeroMinute: false
+                    },
+                    businessHours: true,
+                    themeSystem: 'bootstrap5',
+                    businessHours: {
+                        startTime: '8:00',
+                        endTime: '18:30',
+                        daysOfWeek: [1, 2, 3, 4, 5] // Lunes - Viernes
+                    },
+                    nowIndicator: true,
+                    allDaySlot: false,
+                    firstDay: 1,
+                    customButtons: {
+                        administrationButton: {
+                            text: 'Gestión',
+                            click: function() {}
+                        },
+                    },
+                    showNonCurrentDates: false,
+                    weekends: false,
+                    droppable: true,
+                    slotMinTime: '8:00',
+                    slotMaxTime: '18:30',
+                    initialView: 'timeGridDay',
+                    contentHeight: "auto",
+                    buttonText: {
+                        today: 'Hoy',
+                        month: 'Mes',
+                        week: 'Semana',
+                        day: 'Día',
+                        timeGridWeek: 'Semana',
+                        timeGridDay: 'Día'
+                    },
+                    headerToolbar: {
+                        left: 'prev,today,next',
+                        center: 'title',
+                        right: 'timeGridWeek,timeGridDay,administrationButton'
+                    },
+                    eventClick: function(info) {
+                        $('#eventDetailsModal').modal('show');
+                        $('#startTimeEvent').val(info.event.start.toLocaleString('es'));
+                        $('#endTimeEvent').val(info.event.end.toLocaleString('es'));
+                        $('#eventDescription').val(info.event.title);
+                    },
+                });
+                calendar.render();
+                await fetchEvents();
+            });
+
+
+            function fetchEvents() {
+                fetch('/api/events')
+                    .then(response => response.json())
+                    .then(data => {
+                        calendar.addEventSource(data.map(project => ({
+                            title: project.text,
+                            start: project.start_date,
+                            end: project.end_date,
+                            color: "#041e49",
+                            textColor: 'white'
+                        })));
+                    })
+                    .catch(error => console.error('Error fetching events:', error));
+            }
+        </script>
+    @endpush
 </body>
+
+</html>
