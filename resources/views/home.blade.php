@@ -6,5 +6,6 @@
 @stop
 
 @section('content')
+    @yield('content_body')
     @include('layouts.footer')
 @stop

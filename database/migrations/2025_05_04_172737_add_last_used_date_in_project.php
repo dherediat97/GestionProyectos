@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Add the 'active' column to the 'projects' table
         Schema::table('projects', function (Blueprint $table) {
-            $table->boolean('active')->default(true)->after('user_id');
+            $table->timestamp('last_used_date')->nullable()->after('updated_at');
         });
     }
 
@@ -22,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('projects', function (Blueprint $table) {
+            //
+        });
     }
 };

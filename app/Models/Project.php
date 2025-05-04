@@ -13,9 +13,8 @@ class Project extends Model
         'created_at',
         'user_id',
         'updated_at',
-    ];
-
-    protected $hidden = [
         'id',
     ];
+
+    protected $hidden = [];
 }

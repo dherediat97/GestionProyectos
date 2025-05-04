@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Project;
+use DateTime;
 
 class EventController extends Controller
 {
@@ -27,10 +28,11 @@ class EventController extends Controller
     {
 
         $event = new Event();
-
         $event->text = strip_tags($request->text);
-        $event->start_date = $request->start_date;
-        $event->end_date = $request->end_date;
+        $event->start_date = DateTime::createFromFormat('d/m/Y H:i', $request->start_date);
+        $event->end_date = DateTime::createFromFormat('d/m/Y H:i', $request->end_date);
+        $event->project_id = $request->project_id;
+        $event->user_id = 1;
         $event->save();
 
         return response()->json([
