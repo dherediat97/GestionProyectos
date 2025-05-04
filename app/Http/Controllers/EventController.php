@@ -4,14 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Event;
+use App\Models\Project;
 
 class EventController extends Controller
 {
-    public function index(Request $request)
+    public function show($id)
     {
-        $events = new Event();
+        $events = Event::where('user_id', $id)->get();
+        $projects = Project::where('user_id', $id)->get();
 
-        return response()->json($events->get());
+        foreach ($events as $event) {
+            $event->projectName = Project::where('id', $event->project_id)->first()->name;
+        }
+
+        return response()->json([
+            "myEvents" => $events,
+            "myProjects" => $projects
+        ]);
     }
 
     public function store(Request $request)

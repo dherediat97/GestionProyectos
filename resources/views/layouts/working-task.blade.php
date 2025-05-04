@@ -2,8 +2,13 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <body>
+    <x-adminlte-select class="selUser" name="selUser" label-class="text-navy" igroup-size="lg"
+        data-placeholder="Selecciona un calendario" onchange="selectUser(this.value)">
+    </x-adminlte-select>
+    <!-- CALENDAR View -->
     <div id='calendar'></div>
-    <x-adminlte-modal id="eventDetailsModal" title="Evento" scrollable="true" theme="navy" size='xs'>
+    <!-- Modal for event details -->
+    <x-adminlte-modal id="eventDetailsModal" title="Evento" theme="navy" size='xs'>
         <x-adminlte-input name="startTimeEvent" label="Inicio tarea" igroup-size="xs">
             <x-slot name="appendSlot">
                 <div class="input-group-text">
@@ -28,79 +33,118 @@
 
     @push('js')
         <script>
-            var calendar;
+            var calendar = null;
+            var users = null;
 
-            var calendarEl = document.getElementById('calendar');
-            calendar = new FullCalendar.Calendar(calendarEl, {
-                locale: 'es',
-                themeSystem: 'bootstrap5',
-                titleFormat: {
-                    weekday: 'long',
-                    day: 'numeric',
-                    year: 'numeric',
-                    month: 'long'
-                },
-                slotLabelFormat: {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    meridiem: false,
-                    omitZeroMinute: false
-                },
-                businessHours: true,
-                themeSystem: 'bootstrap5',
-                businessHours: {
-                    startTime: '8:00',
-                    endTime: '18:30',
-                    daysOfWeek: [1, 2, 3, 4, 5] // Lunes - Viernes
-                },
-                nowIndicator: true,
-                allDaySlot: false,
-                firstDay: 1,
-                customButtons: {
-                    administrationButton: {
-                        text: 'Gestión',
-                        click: function() {}
+            initCalendar();
+            getUsers();
+
+
+            function initCalendar() {
+                var calendarEl = document.getElementById('calendar');
+                calendar = new FullCalendar.Calendar(calendarEl, {
+                    locale: 'es',
+                    themeSystem: 'bootstrap5',
+                    titleFormat: {
+                        weekday: 'long',
+                        day: 'numeric',
+                        year: 'numeric',
+                        month: 'long'
                     },
-                },
-                showNonCurrentDates: false,
-                weekends: false,
-                droppable: true,
-                slotMinTime: '8:00',
-                slotMaxTime: '18:30',
-                initialView: 'timeGridDay',
-                contentHeight: "auto",
-                buttonText: {
-                    today: 'Hoy',
-                    month: 'Mes',
-                    week: 'Semana',
-                    day: 'Día',
-                    timeGridWeek: 'Semana',
-                    timeGridDay: 'Día'
-                },
-                headerToolbar: {
-                    left: 'prev,today,next',
-                    center: 'title',
-                    right: 'timeGridWeek,timeGridDay,administrationButton'
-                },
-                eventClick: function(info) {
-                    $('#eventDetailsModal').modal('show');
-                    $('#startTimeEvent').val(info.event.start.toLocaleString('es'));
-                    $('#endTimeEvent').val(info.event.end.toLocaleString('es'));
-                    $('#eventDescription').val(info.event.title);
-                },
-            });
-            calendar.render();
-            fetchEvents();
+                    slotLabelFormat: {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        meridiem: false,
+                        omitZeroMinute: false
+                    },
+                    businessHours: true,
+                    themeSystem: 'bootstrap5',
+                    businessHours: {
+                        startTime: '8:00',
+                        endTime: '18:30',
+                        daysOfWeek: [1, 2, 3, 4, 5] // Lunes - Viernes
+                    },
+                    nowIndicator: true,
+                    allDaySlot: false,
+                    firstDay: 1,
+                    customButtons: {
+                        administrationButton: {
+                            text: 'Gestión',
+                            click: function() {}
+                        },
+                    },
+                    showNonCurrentDates: false,
+                    weekends: false,
+                    droppable: true,
+                    slotMinTime: '8:00',
+                    slotMaxTime: '18:30',
+                    initialView: 'timeGridDay',
+                    contentHeight: "auto",
+                    buttonText: {
+                        today: 'Hoy',
+                        month: 'Mes',
+                        week: 'Semana',
+                        day: 'Día',
+                        timeGridWeek: 'Semana',
+                        timeGridDay: 'Día'
+                    },
+                    headerToolbar: {
+                        left: 'prev,today,next',
+                        center: 'title',
+                        right: 'timeGridWeek,timeGridDay,administrationButton'
+                    },
+                    eventContent: function(info) {
+                        return {
+                            html: info.event.title
+                        };
+                    },
+                    eventClick: function(info) {
+                        $('#eventDetailsModal').modal('show');
+                        $('#startTimeEvent').val(info.event.start.toLocaleString('es'));
+                        $('#endTimeEvent').val(info.event.end.toLocaleString('es'));
+                    },
+                });
+                calendar.render();
+            }
 
 
-            function fetchEvents() {
-                fetch('/api/events')
+            function selectUser(userIdSelected) {
+                fetchEvents(userIdSelected);
+            }
+
+
+            function getUsers() {
+                // Fetch users from the api using AJAX
+                fetch('/api/users')
                     .then(response => response.json())
                     .then(data => {
-                        calendar.addEventSource(data.map(project => ({
-                            title: project.text,
-                            start: project.start_date,
-                            end: project.end_date,
+                        const userSelect = document.querySelector('select[name="selUser"]');
+                        users = data;
+                        data.forEach(user => {
+                            const option = document.createElement('option');
+                            option.value = user.id;
+                            option.textContent = `Calendario de ${user.name}`;
+
+                            userSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching users:', error));
+            }
+
+
+            function fetchEvents(userId) {
+                fetch(`/api/events/${userId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        calendar.removeAllEventSources();
+
+                        var projects = data.myProjects;
+                        var events = data.myEvents;
+
+                        calendar.addEventSource(events.map(event => ({
+                            title: `${event.projectName} <br> ${event.text}`,
+                            start: event.start_date,
+                            end: event.end_date,
                             color: "#041e49",
                             textColor: 'white'
                         })));

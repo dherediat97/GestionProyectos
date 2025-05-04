@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('projects', function (Blueprint $table) {
-            $table->id()->primary();
-            $table->string('name');
-            $table->integer('user_id')->nullable();
-            $table->string('status')->nullable();
-            $table->timestamps();
+        // Add the 'active' column to the 'projects' table
+        Schema::table('projects', function (Blueprint $table) {
+            $table->boolean('active')->default(true)->after('user_id');
         });
     }
 
@@ -25,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('projects');
+        //
     }
 };
