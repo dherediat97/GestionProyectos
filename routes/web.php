@@ -1,11 +1,13 @@
 <?php
 
-use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-//Home route page
+//Start route page
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//Home route page
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //Projects route page
 Route::get('/projects', [App\Http\Controllers\ProjectController::class, 'index'])->name('projects');
 //Users route page

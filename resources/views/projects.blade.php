@@ -4,14 +4,14 @@
 
 @section('content')
     <x-adminlte-modal id="exportEventsPDF" title="Opciones del informe" theme="navy">
-        <x-adminlte-input name="startTimeEvent" label="Fecha Desde" igroup-size="xs" placeholder="dd/mm/yyyy">
+        <x-adminlte-input name="startTimeExport" label="Fecha Desde" igroup-size="xs" placeholder="dd/mm/yyyy">
             <x-slot name="appendSlot">
                 <div class="input-group-text">
                     <i class="fas fa-calendar"></i>
                 </div>
             </x-slot>
         </x-adminlte-input>
-        <x-adminlte-input name="endTimeEvent" label="Fecha Hasta" igroup-size="xs" placeholder="dd/mm/yyyy">
+        <x-adminlte-input name="endTimeEventExport" label="Fecha Hasta" igroup-size="xs" placeholder="dd/mm/yyyy">
             <x-slot name="appendSlot">
                 <div class="input-group-text">
                     <i class="fas fa-calendar"></i>
@@ -20,11 +20,11 @@
         </x-adminlte-input>
 
         <x-adminlte-select name="selProject" label="Proyecto" label-class="text-navy" igroup-size="xs"
-            onchange="selectProject(this.value)" placeholder="Todos los proyectos">
+            placeholder="Todos los proyectos">
         </x-adminlte-select>
 
         <x-adminlte-select name="selUserModal" label="Usuario" label-class="text-navy" igroup-size="xs"
-            onchange="selectUser(this.value)" placeholder="Selecciona una Opción">
+            placeholder="Selecciona una Opción">
         </x-adminlte-select>
         <x-slot name="footerSlot">
             <x-adminlte-button icon="fas fa-lg fa-file-pdf" theme="success" label="Generar" />
@@ -36,7 +36,7 @@
             <div class="col">
                 <x-adminlte-card title="Control de proyectos" theme="white">
                     <x-slot name="toolsSlot" theme="white">
-                        @if (auth()->user()->hasRole('admin'))
+                        @if (auth()->user()->is_user_admin)
                             <x-adminlte-button theme="primary" icon="fas fa-lg fa-plus"
                                 onclick="newProject()"></x-adminlte-button>
                         @endif
@@ -49,9 +49,6 @@
                 </x-adminlte-card>
             </div>
             <div class="col">
-                <x-adminlte-select class="selUser" name="selUser" label-class="text-navy" igroup-size="lg"
-                    onchange="selectUser(this.value)">
-                </x-adminlte-select>
                 @include('layouts.working-task')
             </div>
         </div>
@@ -61,38 +58,27 @@
 @stop
 
 <script>
-    var userSelected = null;
+    var users = null;
     var projectSelected = null;
-    getProjects();
+
     getUsers();
 
-    function selectUser(user) {
-        userSelected = user;
-    }
-
-    function selectProject(project) {
-        projectSelected = project;
-    }
 
     function getUsers() {
         // Fetch users from the api using AJAX
         fetch('/api/users')
             .then(response => response.json())
             .then(data => {
-                const userSelectModal = document.querySelector('select[name="selUserModal"]');
-                const userSelect = document.querySelector('select[name="selUser"]');
+                const userSelect = document.querySelector('select[name="selUserModal"]');
+                users = data;
                 data.forEach(user => {
-                    const optionModal = document.createElement('option');
-                    optionModal.value = user.id;
-                    optionModal.textContent = user.name;
-
                     const option = document.createElement('option');
                     option.value = user.id;
-                    option.textContent = `Calendario de ${user.name}`;
+                    option.textContent = user.name;
 
                     userSelect.appendChild(option);
-                    userSelectModal.appendChild(optionModal);
                 });
+                getProjects();
             })
             .catch(error => console.error('Error fetching users:', error));
     }
@@ -109,15 +95,15 @@
     }
 
     function setProjects(data) {
-        // Update the UI with the fetched projects
         const projectContainer = document.querySelector('.project-container');
         projectContainer.innerHTML = ''; // Clear existing projects
         data.forEach(project => {
             const projectCard = document.createElement('div');
+            const username = users.find(user => user.id === project.user_id).name;
             projectCard.className = 'project-card';
             projectCard.innerHTML = `
                         <x-adminlte-card theme="warning" title=${project.name} body-class="bg-warning" header-class="bg-warning">
-                            Creado por usuario ${project.user_id}
+                            Creado por usuario ${username}
                         </x-adminlte-card>`;
             projectContainer.appendChild(projectCard);
         });
@@ -128,7 +114,7 @@
         data.forEach(user => {
             const option = document.createElement('option');
             option.value = user.id;
-            option.textContent = `${user.name}`;
+            option.textContent = user.name;
             projectSelect.appendChild(option);
         });
     }

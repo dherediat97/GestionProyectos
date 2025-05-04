@@ -257,7 +257,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => '/',
+    'dashboard_url' => '/home',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -307,7 +307,7 @@ return [
         ],
         [
             'text' => 'home',
-            'url' => '/',
+            'url' => '/home',
             'icon' => 'fas fa-fw fa-home',
             'icon_color' => 'light',
         ],
@@ -477,5 +477,5 @@ return [
     |
     */
 
-    'livewire' => true,
+    'livewire' => false,
 ];

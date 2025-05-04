@@ -11,8 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('user', function (Blueprint $table) {
-            //
+        Schema::table('events', function (Blueprint $table) {
+            $table->foreignId('user_id')
+                ->after('project_id')
+                ->constrained('users')
+                ->onDelete('NO ACTION')
+                ->default(1)
+                ->comment('ID of the user associated with the event');
         });
     }
 
@@ -21,7 +26,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('user', function (Blueprint $table) {
+        Schema::table('events', function (Blueprint $table) {
             //
         });
     }
