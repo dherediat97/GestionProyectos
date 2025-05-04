@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('projects', function (Blueprint $table) {
             $table->foreignId('user_id')
-                ->after('active')
+                ->after('name')
                 ->constrained('users')
                 ->onDelete('NO ACTION')
                 ->default(1)

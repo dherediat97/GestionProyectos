@@ -3,6 +3,7 @@
 @section('title', 'Control de proyectos')
 
 @section('content')
+    @yield('content_body')
     <x-adminlte-modal id="exportEventsPDF" title="Opciones del informe" theme="navy">
         <x-adminlte-input name="startTimeExport" label="Fecha Desde" igroup-size="xs" placeholder="dd/mm/yyyy">
             <x-slot name="appendSlot">
@@ -53,7 +54,6 @@
             </div>
         </div>
     </div>
-    @yield('content_body')
     @include('layouts.footer')
 @stop
 
@@ -96,15 +96,16 @@
 
     function setProjects(data) {
         const projectContainer = document.querySelector('.project-container');
-        projectContainer.innerHTML = ''; // Clear existing projects
+        projectContainer.innerHTML = '';
+
         data.forEach(project => {
             const projectCard = document.createElement('div');
             const username = users.find(user => user.id === project.user_id).name;
-            projectCard.className = 'project-card';
-            projectCard.innerHTML = `
-                        <x-adminlte-card theme="warning" title=${project.name} body-class="bg-warning" header-class="bg-warning">
-                            Creado por usuario ${username}
-                        </x-adminlte-card>`;
+            projectCard.innerHTML = `<div draggable="true" class="availableProject" data-id="${project.id}"  ondragstart="dragstartHandler(event)">
+                            <x-adminlte-card theme="warning" title="${project.name}" body-class="bg-warning" header-class="bg-warning">
+                                Creado por usuario ${username}
+                            </x-adminlte-card>
+                        </div>`;
             projectContainer.appendChild(projectCard);
         });
     }
@@ -121,5 +122,9 @@
 
     function newProject() {
         console.log('New project button clicked!');
+    }
+
+    function dragstartHandler(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
     }
 </script>

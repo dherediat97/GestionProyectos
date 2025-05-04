@@ -6,10 +6,10 @@ use App\Models\Project;
 
 class ProjectController extends Controller
 {
+
     public function index()
     {
-
-        $projects = new Project();
-        return response()->json($projects->get());
+        $projects = Project::orderBy('last_used_date', 'DESC')->get();
+        return response()->json($projects);
     }
 }
