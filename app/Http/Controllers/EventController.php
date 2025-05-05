@@ -32,7 +32,7 @@ class EventController extends Controller
         $event->start_date = DateTime::createFromFormat('d/m/Y H:i', $request->start_date);
         $event->end_date = DateTime::createFromFormat('d/m/Y H:i', $request->end_date);
         $event->project_id = $request->project_id;
-        $event->user_id = 1;
+        $event->user_id = $request->user_id;
         $event->save();
 
         return response()->json([
