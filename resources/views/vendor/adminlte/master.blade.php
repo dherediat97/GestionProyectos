@@ -43,6 +43,10 @@
                 <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
                 <link rel="stylesheet" href="{{ asset('vendor/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
                 <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
+                <link rel="stylesheet" href="{{ asset('vendor/fullcalendar/main.min.css') }}">
+                <link rel="stylesheet"
+                    href="{{ asset('vendor/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
+                <link rel="stylesheet" href="{{ asset('vendor/toastr/toastr.min.css') }}">
                 <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet'>
                 <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
 
@@ -116,6 +120,10 @@
                 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
                 <script src="{{ asset('vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
                 <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
+                <script src="{{ asset('vendor/moment/moment.min.js') }}"></script>
+                <script src="{{ asset('vendor/moment/moment-with-locales.min.js') }}"></script>
+                <script src="{{ asset('vendor/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+                <script src="{{ asset('vendor/toastr/toastr.min.js') }}"></script>
                 <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.17/index.global.min.js'></script>
                 <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.17/index.global.min.js'></script>
                 <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.17/index.global.min.js'></script>
