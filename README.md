@@ -23,9 +23,10 @@
 
 
 # Instalación
-Clonar Repositorio:
+Clonar el repositorio:
 ```
-git clone https://github.com/dherediat97/GestionProyectos.git
+git clone https://github.com/dherediat97/GestionProyectos.git gestion_proyectos
+cd gestion_proyectos
 ```
 Instalar todas las dependencias de composer del proyecto:
 ```
@@ -35,7 +36,7 @@ Instalar todas las dependencias de node:
 ```
 npm install
 ```
-Añadir este fichero a la raíz del proyecto:
+Añadir este fichero('.env') a la raíz del proyecto:
 ```
 APP_NAME=gestion_proyectos
 APP_ENV=local
@@ -113,3 +114,25 @@ Insertar algunos datos de prueba:
 ```
 php artisan db:seed
 ```
+# Problemas encontrados
+- Poca posibilidad de personalización en la plantilla usada
+
+# Funcionalidades
+- Inicio de sesión y registro de usuarios y usuarios administradores.
+- Añadir proyectos(sólo para usuarios Admin).
+- Añadir tareas asociadas a un proyecto específico, usando el drag an drop.
+- Mostrar las tareas asociadas a los usuarios.
+- Generación de reporte de las tareas por usuario, proyecto y rango de fechas.
+- Mostrar proyectos ordenados por última fecha de uso
+
+
+# Uso
+Para poder arrancar el proyecto y poderlo verlo en funcionamiento se debe de arrancar
+```
+php artisan serve --port=9000 \\Puerto predefinido en el .env
+```
+y también para temas de desarrollo(livereload)
+```
+npm run dev
+```
+
