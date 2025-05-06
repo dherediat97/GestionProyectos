@@ -8,6 +8,8 @@
     @yield('css')
 @stop
 
+
+
 @section('classes_body', $layoutHelper->makeBodyClasses())
 
 @section('body_data', $layoutHelper->makeBodyData())
