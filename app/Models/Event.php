@@ -11,9 +11,8 @@ class Event extends Model
         'project_id',
         'start_date',
         'end_date',
-    ];
-
-    protected $hidden = [
         'id',
     ];
+
+    protected $hidden = [];
 }

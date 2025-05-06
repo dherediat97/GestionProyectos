@@ -149,3 +149,13 @@ table tr.items td {
     font-weight: bold;
     text-align: center;
 }
+
+.footer {
+    position: fixed;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: black;
+    text-align: right;
+}
