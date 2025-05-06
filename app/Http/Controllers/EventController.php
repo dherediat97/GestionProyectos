@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Project;
 use DateTime;
+use Illuminate\Support\Facades\Session;
 
 class EventController extends Controller
 {
@@ -20,7 +21,7 @@ class EventController extends Controller
 
         return response()->json([
             "myEvents" => $events,
-            "myProjects" => $projects
+            "myProjects" => $projects,
         ]);
     }
 

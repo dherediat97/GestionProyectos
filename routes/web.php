@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+Auth::routes();
+
+
+
 Route::group(['middleware' => ['auth']], function () {
 
     //Start page
@@ -37,6 +41,4 @@ Route::group(['middleware' => ['auth']], function () {
 
         return view('users');
     });
-
-    Auth::routes();
 });

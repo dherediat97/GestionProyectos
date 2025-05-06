@@ -20,7 +20,10 @@ class ReportController extends Controller
         $start_date = $request->start_date;
         $end_date = $request->end_date;
         $totalMins = 0;
-        $events = Event::where('project_id', $project_id)->get();
+        $events = Event::where([
+            ['user_id', $user_id],
+            ['project_id', $project_id]
+        ])->get();
 
         $projectSelected = Project::where('id', $project_id)->first();
         $userSelected = User::where('id', $user_id)->first();

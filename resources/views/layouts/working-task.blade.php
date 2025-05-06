@@ -1,9 +1,10 @@
 @php
     $config = [
-        'format' => 'DD/MM/YYYY hh:mm',
+        'format' => 'DD/MM/YYYY HH:mm',
         'dayViewHeaderFormat' => 'MMM YYYY',
         'minDate' => "js:moment().startOf('month')",
         'maxDate' => "js:moment().endOf('month')",
+        'locale' => 'es',
         'daysOfWeekDisabled' => [0, 6],
     ];
 @endphp
@@ -14,6 +15,7 @@
 <div id='calendar'></div>
 <!-- Modal for event details -->
 <x-adminlte-modal id="eventDetailsModal" title="Evento" theme="navy" size='xs'>
+
     <x-adminlte-input-date name="startTimeEvent" :config="$config" label-class="text-dark" label="Inicio tarea"
         igroup-size="xs">
         <x-slot name="appendSlot">
@@ -22,8 +24,10 @@
             </div>
         </x-slot>
     </x-adminlte-input-date>
+
     <x-adminlte-textarea name="eventDescription" label="Texto informativo" rows=4>
     </x-adminlte-textarea>
+
     <x-adminlte-input-date name="endTimeEvent" :config="$config" label-class="text-dark" label="Fin tarea"
         igroup-size="xs">
         <x-slot name="appendSlot">
@@ -32,10 +36,12 @@
             </div>
         </x-slot>
     </x-adminlte-input-date>
+
     <x-slot name="footerSlot">
         <x-adminlte-button id="saveEventButton" icon="fas fa-lg fa-save" theme="success" label="Guardar"
             onclick="saveEvent()" />
-        <x-adminlte-button theme="danger" icon="fas fa-lg fa-xmark" label="Cerrar" data-dismiss="modal" />
+        <x-adminlte-button theme="danger" id="closeModal" icon="fas fa-lg fa-xmark" label="Cerrar" data-dismiss="modal"
+            onclick="closeModal()" />
     </x-slot>
 </x-adminlte-modal>
 
@@ -200,6 +206,7 @@
                     $('#endTimeEvent').val(endTimeEvent);
                 $('#eventDescription').val(info.event.title);
             }
+            $("#closeModal").attr('data-newEvent', newEvent);
             $('#eventDetailsModal').modal('show');
         }
 
@@ -208,14 +215,16 @@
             fetch('/api/users')
                 .then(response => response.json())
                 .then(data => {
-                    const userSelect = document.querySelector('select[name="selUser"]');
+                    const userSelect = $(".selUser");
                     data.forEach(user => {
                         const option = document.createElement('option');
                         option.value = user.id;
                         option.textContent = `Calendario de ${user.name}`;
 
-                        userSelect.appendChild(option);
+                        userSelect.append(option);
                     });
+                    const option = $('.selUser option:eq({{ Auth::user()->id - 1 }})').prop('selected', true);
+                    fetchEvents($('.selUser').find('option:selected').val());
                 })
                 .catch(error => console.error('Error fetching users:', error));
         }
@@ -231,6 +240,7 @@
                     var events = data.myEvents;
 
                     calendar.addEventSource(events.map(event => ({
+                        id: event.id,
                         title: event.text,
                         start: event.start_date,
                         end: event.end_date,
@@ -248,26 +258,37 @@
             const startTimeEvent = $('#startTimeEvent').val();
             const endTimeEvent = $('#endTimeEvent').val();
             const infoText = $('#eventDescription').val();
-
-            fetch(`api/events/`, {
+            const userId = '{{ Auth::user()->id }}';
+            $.ajax({
+                url: 'api/events/',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    user_id: {{ Auth::user()->id }},
+                data: JSON.stringify({
+                    user_id: userId,
                     project_id: projectIdDragged,
                     start_date: startTimeEvent,
                     end_date: endTimeEvent,
                     text: infoText,
                 }),
-            }).then(response => {
-                if (response.ok) {
+                success: function(response) {
                     $('#eventDetailsModal').modal('hide');
-                } else {
-                    console.error('Error saving event:', response.statusText);
+                    fetchEvents(userId);
+                },
+                error: function(response) {
+                    toastr.error(
+                        'Error: El evento no se ha podido crear correctamente'
+                    );
+                    closeModal();
                 }
-            }).catch(error => console.error('Error saving event:', error));
+            });
+        }
+
+        function closeModal() {
+            if ($("#closeModal").attr("data-newEvent") == 'true')
+                calendar.getEvents().at(-1).remove();
+            $('#eventDetailsModal').modal('hide');
         }
 
 

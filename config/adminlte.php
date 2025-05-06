@@ -158,7 +158,7 @@ return [
     'layout_boxed' => null,
     'layout_fixed_sidebar' => null,
     'layout_fixed_navbar' => null,
-    'layout_fixed_footer' => null,
+    'layout_fixed_footer' => true,
     'layout_dark_mode' => null,
 
     /*
@@ -314,7 +314,7 @@ return [
         [
             'text' => 'admin_projects',
             'url' => '/projects',
-            'icon' => 'fas fa-fw fa-user-tie',
+            'icon' => 'fas fa-fw fa-diagram-project',
             'icon_color' => 'light',
         ],
         [
