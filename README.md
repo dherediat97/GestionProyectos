@@ -1,14 +1,9 @@
 # Gestión de Proyectos
 
-## Memoria del proyecto
-
-
-
 ## Prerequisitos
 - XAMP o (Apache/PHP/MySQL)
 - Composer
 - NodeJS
-
 
 ## Entornos de programación usados
 
