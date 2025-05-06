@@ -49,7 +49,6 @@ class User extends Authenticatable
 
     public function adminlte_image()
     {
-        return 'logo_blue.jpg';
-        // return env('APP_PROFILE_BASE_URL') . $this->name;
+        return env('APP_PROFILE_BASE_URL') . $this->name;
     }
 }
