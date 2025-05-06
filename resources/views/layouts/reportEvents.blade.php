@@ -81,8 +81,8 @@
         TOTAL MINS: <span class="value">{{ $totalMins }}</span>
     </div>
 
-    <div class="footer margin-top">
-        <div>Página 1 de 1</div>
+    <div class="footer">
+        Página 1 de 1
     </div>
 </body>
 

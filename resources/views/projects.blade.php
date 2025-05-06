@@ -30,12 +30,12 @@
             </x-slot>
         </x-adminlte-input-date>
 
-        <x-adminlte-select name="selProject" id="projectSelected" label="Proyecto" label-class="text-navy" igroup-size="xs"
-            placeholder="Todos los proyectos">
+        <x-adminlte-select name="selProject" id="projectSelected" label="Proyecto" label-class="text-navy" igroup-size="xs">
+            <option value="0" disabled>Todos los proyectos</option>
         </x-adminlte-select>
 
-        <x-adminlte-select name="selUserModal" id="userSelected" label="Usuario" label-class="text-navy" igroup-size="xs"
-            placeholder="Selecciona una Opción">
+        <x-adminlte-select name="selUserModal" id="userSelected" label="Usuario" label-class="text-navy" igroup-size="xs">
+            <option value="0" disabled>Selecciona una Opción</option>
         </x-adminlte-select>
         <x-slot name="footerSlot">
             <x-adminlte-button icon="fas fa-lg fa-file-pdf" theme="success" label="Generar"
@@ -49,10 +49,10 @@
                 <x-adminlte-card title="{{ __('menu.admin_projects') }}" theme="light">
                     <x-slot name="toolsSlot" theme="light">
                         @if (auth()->user()->is_user_admin)
-                            <x-adminlte-button theme="primary" icon="fas fa-lg fa-plus"
+                            <x-adminlte-button theme="primary" id="newProjectButton" icon="fas fa-lg fa-plus"
                                 onclick="newProject()"></x-adminlte-button>
                         @endif
-                        <x-adminlte-button id="exportEventsPDFIcon" theme="primary" icon="fas fa-lg fa-file-pdf"
+                        <x-adminlte-button id="exportEventsPDFButton" theme="primary" icon="fas fa-lg fa-file-pdf"
                             data-toggle="modal" onclick="openExportEventsModal()"></x-adminlte-button>
                     </x-slot>
                     <x-slot name="footerSlot">
@@ -70,7 +70,8 @@
 
 @push('css')
     <style>
-        #exportEventsPDFIcon {
+        #exportEventsPDFButton,
+        #newProjectButton {
             background-color: #2F4486 !important;
         }
     </style>
@@ -144,10 +145,11 @@
     }
 
     function openExportEventsModal() {
-        $("#startTimeEventExport").val();
-        $("#endTimeEventExport").val();
-        $("#projectSelected").val();
-        $("#userSelected").val();
+        $("#startTimeEventExport").val($("#startTimeEventExport option:first").val());
+        $("#endTimeEventExport").val($("#endTimeEventExport option:first").val());
+        $("#projectSelected").val($("#projectSelected option:first").val());
+        $("#userSelected").val($("#userSelected option:first").val());
+
 
         $("#exportEventsPDF").modal("show");
     }
@@ -163,9 +165,10 @@
             'closeButton': true,
             'preventDuplicates': false,
         }
+
         $.ajax({
             url: '/api/reports',
-            method: 'POST',
+            method: 'GET',
             data: {
                 'start_date': startDate,
                 'end_date': endDate,
@@ -173,8 +176,9 @@
                 'project_id': projectSelected,
             },
             success: function(response) {
-                toastr.success('Informe exportado correctamente')
                 $("#exportEventsPDF").modal('hide');
+                toastr.success('Informe exportado correctamente');
+                window.open('{{ env('PDF_FILE') }}');
             }
         });
     }
